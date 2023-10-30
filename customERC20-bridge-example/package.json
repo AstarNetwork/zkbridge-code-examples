@@ -48,6 +48,6 @@
   "scripts": {
     "deploy:erc20Bridge": "npx hardhat run deployment/deployERC20Bridge.js --network sepolia",
     "bridge:MockERC20": "npx hardhat run scripts/bridgeMockERC20.js --network sepolia",
-    "claim:MockERC20": "npx hardhat run scripts/claimMockERC20.js --network zkastar"
+    "claim:MockERC20": "npx hardhat run scripts/claimMockERC20.js --network zkatana"
   }
 }
