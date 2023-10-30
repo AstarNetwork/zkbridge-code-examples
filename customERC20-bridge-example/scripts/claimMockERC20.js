@@ -45,7 +45,7 @@ async function main() {
     const bridgeContractZkeVM = bridgeFactoryZkeEVm.attach(zkEVMBridgeContractAddress);
 
     let ERC20BridgeContractAddress;
-    if (networkName === 'zkastar' || networkName === 'sepolia') {
+    if (networkName === 'zkatana' || networkName === 'sepolia') {
         ERC20BridgeContractAddress = deploymentERC20Bridge.ERC20BridgezkEVM;
     }
 
