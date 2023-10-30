@@ -74,7 +74,7 @@ module.exports = {
         count: 20,
       },
     },
-    zkastar: {
+    zkatana: {
       url: `https://rpc.zkatana.gelato.digital`,
       chainId: 1261120,
       accounts: {
