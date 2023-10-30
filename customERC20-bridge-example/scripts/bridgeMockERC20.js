@@ -36,7 +36,7 @@ async function main() {
     if (networkName === 'sepolia' ) {
         destinationNetwork = networkIDzk;
         erc20TokenAddress = deploymentERC20Bridge.erc20MainnetToken;
-        ERC20BridgeContractAddress = deploymentERC20Bridge.ERC20BridgeMainnet;
+        ERC20BridgeContractAddress = deploymentERC20Bridge.ERC20Bridge;
     }
 
     const erc20BridgeFactory = await ethers.getContractFactory('ERC20BridgeNativeChain', deployer);

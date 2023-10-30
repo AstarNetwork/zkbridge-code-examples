@@ -6,7 +6,6 @@ require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
 const { ethers } = require('hardhat');
 
 const sepoliaBridgeAddress = '0xA34BBAf52eE84Cd95a6d5Ac2Eab9de142D4cdB53';
-const zkatanaBridgeAddress = '0xA34BBAf52eE84Cd95a6d5Ac2Eab9de142D4cdB53';
 
 const mekrleProofString = '/merkle-proof';
 const getClaimsFromAcc = '/bridges/';
@@ -31,8 +30,7 @@ async function main() {
     let baseURL;
     const networkName = process.env.HARDHAT_NETWORK;
 
-    // Use mainnet bridge address
-
+    // Use bridge address
     zkEVMBridgeContractAddress = sepoliaBridgeAddress;
     baseURL = 'https://bridge-api.zkatana.gelato.digital';
 
@@ -57,6 +55,7 @@ async function main() {
         console.log('Not deposits yet!');
         return;
     }
+
 
     for (let i = 0; i < depositsArray.length; i++) {
         const currentDeposit = depositsArray[i];

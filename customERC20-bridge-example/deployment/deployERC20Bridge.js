@@ -65,21 +65,21 @@ async function main() {
     const predictErc20zkEVMToken = ethers.utils.getContractAddress({ from: deployer.address, nonce: nonceZkevm + 1 });
 
     // deploy mainnet erc20 bridge
-    const ERC20BridgeMainnetFactory = await ethers.getContractFactory('ERC20BridgeNativeChain', deployer);
-    const ERC20BridgeMainnet = await ERC20BridgeMainnetFactory.deploy(
+    const ERC20BridgeFactory = await ethers.getContractFactory('ERC20BridgeNativeChain', deployer);
+    const ERC20Bridge = await ERC20BridgeFactory.deploy(
         zkEVMBridgeContractAddress,
         predictERC20BridgeZkEVM,
         networkIDzkEVM,
         erc20MainnetToken.address,
     );
-    await ERC20BridgeMainnet.deployed();
-    console.log('ERC20BridgeMainnet deployed');
+    await ERC20Bridge.deployed();
+    console.log('ERC20Bridge deployed');
 
     // deploy zkEVM erc20 bridge
     const ERC20BridgezkEVMFactory = await ethers.getContractFactory('ERC20BridgeNonNativeChain', deployerZkEVM);
     const ERC20BridgezkEVM = await ERC20BridgezkEVMFactory.deploy(
         zkEVMBridgeContractAddress,
-        ERC20BridgeMainnet.address,
+        ERC20Bridge.address,
         networkIDSepolia,
         predictErc20zkEVMToken,
     );
@@ -102,7 +102,7 @@ async function main() {
     expect(predictErc20zkEVMToken).to.be.equal(erc20zkEVMToken.address);
 
     const outputJson = {
-        ERC20BridgeMainnet: ERC20BridgeMainnet.address,
+        ERC20Bridge: ERC20Bridge.address,
         ERC20BridgezkEVM: ERC20BridgezkEVM.address,
         erc20MainnetToken: erc20MainnetToken.address,
         erc20zkEVMToken: erc20zkEVMToken.address,
