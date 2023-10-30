@@ -26,7 +26,7 @@ As example for `sepolia`/`zKatana` testnets:
 This script will deploy on both networks the same contract using the deterministic deployment:
 
 ```
-deploy:erc20Bridge
+npm run deploy:erc20Bridge
 ```
 
 Once the deployment is finished, we will find the results on `ERC20Bridge_output.json`
