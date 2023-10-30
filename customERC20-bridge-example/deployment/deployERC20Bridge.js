@@ -64,7 +64,7 @@ async function main() {
     const predictERC20BridgeZkEVM = ethers.utils.getContractAddress({ from: deployer.address, nonce: nonceZkevm });
     const predictErc20zkEVMToken = ethers.utils.getContractAddress({ from: deployer.address, nonce: nonceZkevm + 1 });
 
-    // deploy mainnet erc20 bridge
+    // deploy erc20 bridge
     const ERC20BridgeFactory = await ethers.getContractFactory('ERC20BridgeNativeChain', deployer);
     const ERC20Bridge = await ERC20BridgeFactory.deploy(
         zkEVMBridgeContractAddress,
