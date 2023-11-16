@@ -6,10 +6,9 @@ require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 const { ethers } = require('hardhat');
 const { expect } = require('chai');
 
-const mainnetBridgeAddress = '0x2a3DD3EB832aF982ec71669E178424b10Dca2EDe';
-const testnetBridgeAddress = '0xF6BEEeBB578e214CA9E23B0e9683454Ff88Ed2A7';
+const sepoliaBridgeAddress = '0xA34BBAf52eE84Cd95a6d5Ac2Eab9de142D4cdB53';
 
-const networkIDMainnet = 0;
+const networkIDSepolia = 0;
 const networkIDzkEVM = 1;
 
 async function main() {
@@ -18,13 +17,9 @@ async function main() {
 
     const networkName = process.env.HARDHAT_NETWORK;
     // Use mainnet bridge address
-    if (networkName === 'mainnet') {
-        zkEVMBridgeContractAddress = mainnetBridgeAddress;
-        zkEVMProvider = new ethers.providers.JsonRpcProvider('https://zkevm-rpc.com');
-    } else if (networkName === 'goerli') {
-        // Use testnet bridge address
-        zkEVMBridgeContractAddress = testnetBridgeAddress;
-        zkEVMProvider = new ethers.providers.JsonRpcProvider('https://rpc.public.zkevm-test.net');
+    if (networkName === 'sepolia') {
+        zkEVMBridgeContractAddress = sepoliaBridgeAddress;
+        zkEVMProvider = new ethers.providers.JsonRpcProvider('https://rpc.zkatana.gelato.digital');
     } else {
         throw new Error('Network not supported');
     }
@@ -69,23 +64,23 @@ async function main() {
     const predictERC20BridgeZkEVM = ethers.utils.getContractAddress({ from: deployer.address, nonce: nonceZkevm });
     const predictErc20zkEVMToken = ethers.utils.getContractAddress({ from: deployer.address, nonce: nonceZkevm + 1 });
 
-    // deploy mainnet erc20 bridge
-    const ERC20BridgeMainnetFactory = await ethers.getContractFactory('ERC20BridgeNativeChain', deployer);
-    const ERC20BridgeMainnet = await ERC20BridgeMainnetFactory.deploy(
+    // deploy erc20 bridge
+    const ERC20BridgeFactory = await ethers.getContractFactory('ERC20BridgeNativeChain', deployer);
+    const ERC20Bridge = await ERC20BridgeFactory.deploy(
         zkEVMBridgeContractAddress,
         predictERC20BridgeZkEVM,
         networkIDzkEVM,
         erc20MainnetToken.address,
     );
-    await ERC20BridgeMainnet.deployed();
-    console.log('ERC20BridgeMainnet deployed');
+    await ERC20Bridge.deployed();
+    console.log('ERC20Bridge deployed');
 
     // deploy zkEVM erc20 bridge
     const ERC20BridgezkEVMFactory = await ethers.getContractFactory('ERC20BridgeNonNativeChain', deployerZkEVM);
     const ERC20BridgezkEVM = await ERC20BridgezkEVMFactory.deploy(
         zkEVMBridgeContractAddress,
-        ERC20BridgeMainnet.address,
-        networkIDMainnet,
+        ERC20Bridge.address,
+        networkIDSepolia,
         predictErc20zkEVMToken,
     );
     await ERC20BridgezkEVM.deployed();
@@ -107,7 +102,7 @@ async function main() {
     expect(predictErc20zkEVMToken).to.be.equal(erc20zkEVMToken.address);
 
     const outputJson = {
-        ERC20BridgeMainnet: ERC20BridgeMainnet.address,
+        ERC20Bridge: ERC20Bridge.address,
         ERC20BridgezkEVM: ERC20BridgezkEVM.address,
         erc20MainnetToken: erc20MainnetToken.address,
         erc20zkEVMToken: erc20zkEVMToken.address,
